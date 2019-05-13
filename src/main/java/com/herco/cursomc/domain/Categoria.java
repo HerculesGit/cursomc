@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Categoria está associada a ao produto
  * */
@@ -22,6 +24,9 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 
+	
+	// a gente usa isso no lado que queremos os objetos associados, no lado oposto usamos... (ver lá em produto)
+	@JsonManagedReference // para dizer que tá tudo bem serializar os produtos
 	@ManyToMany(mappedBy = "categorias") // mas nao precisa refazer o mapeamento grande igual ao da classe produto que
 											// foi em 'categorias'.  // como foi no atributo categorias, a gente coloca mappedBy = "categorias"
 	private List<Produto> produtos = new ArrayList<>();
