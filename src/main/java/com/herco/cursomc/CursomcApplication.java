@@ -13,6 +13,7 @@ import com.herco.cursomc.domain.Cidade;
 import com.herco.cursomc.domain.Cliente;
 import com.herco.cursomc.domain.Endereco;
 import com.herco.cursomc.domain.Estado;
+import com.herco.cursomc.domain.ItemPedido;
 import com.herco.cursomc.domain.Pagamento;
 import com.herco.cursomc.domain.PagamentoComBoleto;
 import com.herco.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.herco.cursomc.repositories.CidadeRepository;
 import com.herco.cursomc.repositories.ClienteRepository;
 import com.herco.cursomc.repositories.EnderecoRepository;
 import com.herco.cursomc.repositories.EstadoRepository;
+import com.herco.cursomc.repositories.ItemPedidoRepository;
 import com.herco.cursomc.repositories.PagamentoRepository;
 import com.herco.cursomc.repositories.PedidoRepository;
 import com.herco.cursomc.repositories.ProdutoRepository;
@@ -56,6 +58,9 @@ public class CursomcApplication implements CommandLineRunner { // para usar uma 
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	
 	public static void main(String[] args) {
@@ -126,6 +131,19 @@ public class CursomcApplication implements CommandLineRunner { // para usar uma 
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 2000.00, 1);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 80.00, 2);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 800.00, 1);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		// salvar na base de dados
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 	}
 
