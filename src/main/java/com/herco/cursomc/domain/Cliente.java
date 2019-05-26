@@ -42,6 +42,11 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE") // assim ele vai criar uma tabela telefone a partir da lista Set que temos a baixo
 	private Set<String> telefones = new HashSet<>(); // Set é um conjunto, ele nao pode se repetir, então já estamos garantingo que não irá se repetir
 	
+	
+	// cliente tem pedidos
+	@OneToMany(mappedBy = "cliente") // foi mapeado pelo cliente
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Cliente() {}
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
@@ -112,6 +117,15 @@ public class Cliente implements Serializable {
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
 	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+	
 	
 	@Override
 	public int hashCode() {
